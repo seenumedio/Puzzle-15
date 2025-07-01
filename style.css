@@ -1,0 +1,414 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: wheat;
+}
+
+/* navbar */
+.navbar {
+    height: 80px;
+    width: 100%;
+    background-color: #FFCE47;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    box-shadow: 0 5px 20px darkblue;
+    backdrop-filter: blur(10px);
+}
+
+.navbar-container {
+    width: 100%;
+    max-width: 1600px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo img {
+    height: 45px;
+    box-shadow: 0 0 10px #240969;
+}
+
+.logo h1 {
+    font-family: "Moul", sans-serif;
+    font-size: 1.7rem;
+    color: black;
+    text-shadow: 0 0 5px white;
+}
+
+.hambBtn {
+    display: none;
+}
+
+.navbar-menu {
+    min-width: 40%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.navbar-menu a {
+    color: #240969;
+    font-size: 1.5rem;
+    font-weight: 550;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.navbar-menu .reset {
+    background: none;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.navbar-menu li a:hover {
+    background-color: #240969;
+    color: #FFCE47;
+}
+
+/* hero */
+.hero {
+    min-height: 120px;
+    max-height: fit-content;
+    width: 100%;
+    background-color: rgb(17, 17, 36);
+    box-shadow: 0 0 20px goldenrod;
+    padding: 0 20px;
+    margin: min(30px, 4vw) 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 100px;
+    position: sticky;
+    top: 0;
+}
+
+.hero .timer,
+.moves {
+    color: black;
+    background-color: #FFCE47;
+    font-size: clamp(1.3rem, 2vw, 1.5rem);
+    padding: min(2rem, 4%) clamp(1%, 2rem, 2em);
+    font-weight: bolder;
+    text-align: center;
+}
+
+.hero #moves {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: darkblue;
+}
+
+.hero .timer {
+    font-family: monospace;
+    color: darkblue;
+}
+
+.hero h1 {
+    color: white;
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-family: "Moul", sans-serif;
+    text-shadow: 1px 1px 1px black;
+    text-align: center;
+}
+
+/* puzzle-grid */
+.puzzle {
+    background-color: #555145;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.puzzle-container {
+    background-color: black;
+    align-self: center;
+    height: min(95vw, 75vh);
+    width: min(95vw, 75vh);
+    display: grid;
+    margin-top: 10px;
+    padding: min(2vw, 10%);
+    grid-gap: min(1vw, 1%);
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.puzzle-container .tile {
+    background-color: #FFCE47;
+    height: 90%;
+    width: 90%;
+    align-self: center;
+    justify-self: center;
+    font-size: clamp(2rem, 10vw, 3rem);
+    transition: background 0.2s, box-shadow 0.2s, color 0.1s;
+}
+
+.puzzle-container .blank {
+    background-color: #555145;
+    height: 90%;
+    width: 90%;
+    align-self: center;
+    justify-self: center;
+    border-radius: 10px;
+}
+
+.puzzle-container div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.puzzle-container .tile:hover {
+    border: 5px solid;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 0 5px yellow;
+    background-color: black;
+    color: #FFCE47;
+}
+
+/* pause button */
+.puzzle #pauseGame {
+    width: min(50%, 50vh);
+    background-color: black;
+    color: #FFCE47;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    padding: 10px 0;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.puzzle #pauseGame:hover,
+#play:hover {
+    background-color: black;
+    box-shadow: 0 0 5px yellow;
+}
+
+/* when paused */
+#play {
+    opacity: 0;
+    pointer-events: none;
+    width: 100px;
+    background-color: rgb(41, 41, 41);
+    color: #FFCE47;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    border: none;
+    border-radius: 50px;
+    padding: 10px 0;
+    cursor: pointer;
+    position: absolute;
+    justify-self: center;
+    align-self: center;
+    transition: opacity 0.2s ease-in;
+    z-index: 1;
+}
+
+#play.show {
+    opacity: 1;
+    pointer-events: initial;
+}
+
+.tile.paused,
+.blank.paused {
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+/* wonGame */
+.wonMsg {
+    opacity: 0;
+    pointer-events: none;
+    width: min(70vh, 90%);
+    height: fit-content;
+    background-color: rgb(0, 106, 88);
+    color: aqua;
+    border-radius: 15px;
+    padding: 10px 0;
+    font-size: min(1.5rem, 4vw);
+    font-family: cursive;
+    text-shadow: 0 0 10px black;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    position: absolute;
+    z-index: 0;
+    align-self: center;
+    justify-self: center;
+    transition: opacity 0.1s ease-in-out;
+}
+
+.wonMsg.show {
+    opacity: 1;
+    pointer-events: initial;
+}
+
+.wonMsg a {
+    color: aquamarine;
+    padding: 10px;
+    background-image: linear-gradient(to right, black, darkcyan, black);
+    border-radius: 10px;
+    box-shadow: 0 0 5px white;
+    font-family: sans-serif;
+}
+
+.wonMsg a:hover {
+    box-shadow: 0 0 0 1px gold;
+}
+
+.wonMsg h2 {
+    font-family: serif;
+}
+
+.wonMsg span {
+    font-family: serif;
+    font-weight: 100;
+    text-shadow: 5px 5px 20px black;
+}
+
+/* after gameOver */
+.puzzle-container.gameOver div,
+#pauseGame.gameOver {
+    pointer-events: none;
+    opacity: 0.09;
+}
+
+@media all and (max-width:640px) {
+
+    /* navbar */
+    .navbar {
+        display: block;
+        max-height: fit-content;
+    }
+
+    .navbar a {
+        font-size: 1.3rem;
+    }
+
+    .navbar-container {
+        flex-direction: column;
+        align-items: first baseline;
+        padding: 1rem 0rem;
+        gap: 2rem;
+    }
+
+    .navbar .logo {
+        display: none;
+    }
+
+    .hambBtn {
+        display: block;
+        background: transparent;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .hambBtn.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hambBtn.active .bar:first-child {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .hambBtn.active .bar:last-child {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        border-radius: 50px;
+        background: #240969;
+        transition: all 0.1s ease-in-out;
+    }
+
+    .navbar-menu {
+        opacity: 0;
+        max-height: 0;
+        pointer-events: none;
+        width: 100%;
+        padding: 20px;
+        background-color: rgb(37, 37, 52);
+        align-self: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        justify-content: space-around;
+        transition: opacity 0.3s ease, max-height 0.3s ease;
+        z-index: 25;
+        position: absolute;
+        top: 100px;
+    }
+
+    .navbar-menu a {
+        color: #FFCE47;
+    }
+
+    .navbar-menu.active {
+        opacity: 1;
+        max-height: 100vh;
+        pointer-events: auto;
+    }
+
+    /* hero */
+    .hero {
+        padding: 5px;
+        line-height: min(10% 2rem);
+        position: initial;
+        justify-content: space-between;
+    }
+
+    .hero .timer,
+    .moves {
+        align-self: flex-end;
+        padding: min(1.8rem, 4%) min(2rem, 1%);
+        position: relative;
+    }
+
+    .hero .timer {
+        padding: min(1.8rem, 4%) min(2rem, 1%);
+    }
+
+    .hero h1 {
+        align-self: flex-start;
+    }
+
+    /* puzzle */
+    .puzzle-container {
+        margin-top: 10px;
+        justify-self: flex-start;
+    }
+}
+
+@media all and (max-width: 380px) {
+
+    .hero .timer,
+    .moves {
+        padding: min(1.8rem, 7.5%) 0;
+    }
+
+    .hero .moves {
+        font-size: clamp(0.8rem, 1rem, 1.3rem);
+    }
+}

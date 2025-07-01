@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Moul&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">
+                <img src="../../icon.png" alt="">
+                <h1>Puzzle-15</h1>
+            </a>
+
+            <button class="hambBtn">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="navbar-menu">
+                <li><a href="#" id="newGame">New</a></li>
+                <li><a href="#">Mode</a></li>
+                <li><a href="#" class="records">Records</a></li>
+                <li><a href="#" class="reset">Reset</a></li>
+            </ul>
+        </div>
+    </nav>
+   <!-- Hero -->
+    <div class="hero">
+        <span class="timer">00:00:00</span>
+        <h1>Puzzle-15</h1>
+        <span class="moves">Moves <span id="moves">0</span></span>
+    </div>
+   <!-- Puzzle Grid -->
+    <div class="puzzle">
+        <div class="puzzle-container">
+            <button id="play">Play</button>
+            <span class="wonMsg">
+                <h1>Congratulations</h1>
+                <h2><span>You</span> won</h2>
+                <a href="#" class="records">Records</a>
+            </span>
+        </div>
+        <button id="pauseGame">Pause</button>
+    </div>
+    <script src="sandbox.js"></script>
+</body>
+</html>
