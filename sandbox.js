@@ -9,6 +9,7 @@ let elapsedTime = 0;
 let isRunning = false;
 let firstMove = false;
 
+const puzzle = document.querySelector('.puzzle');
 const puzzleContainer = document.querySelector('.puzzle .puzzle-container');
 
 const moves = document.querySelector('#moves');
@@ -19,6 +20,10 @@ const resetBtn = document.querySelector('.reset');
 const newGame = document.querySelector('#newGame');
 
 const wonMsg = document.querySelector('.wonMsg');
+
+const leaderBoard = document.querySelector('.leaderboard');
+const closeScores = document.querySelector('.closeScores');
+const recordsBtns = document.querySelectorAll('.records');
 // navbar
 navBar.addEventListener('click', (e) => {
     if (e.target == hambBtn || e.target.parentElement == hambBtn || Array.from(navMenu).includes(e.target)) {
@@ -188,4 +193,15 @@ function showWinMsg(){
 }
 if (isSorted(tilesArray)) {
     showWinMsg();
+}
+// leaderBoard
+recordsBtns.forEach(recordsBtn=>{
+    recordsBtn.onclick = ()=>{
+        puzzle.classList.add('showScores');
+        leaderBoard.classList.add('showScores');
+    ;}
+});
+closeScores.onclick = () =>{
+    puzzle.classList.remove('showScores');
+    leaderBoard.classList.remove('showScores');
 }
