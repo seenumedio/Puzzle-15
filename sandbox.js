@@ -31,6 +31,20 @@ navBar.addEventListener('click', (e) => {
         hambBtn.nextElementSibling.classList.toggle('active');
     }
 });
+// fetching scores
+const fetchScores = async () => {
+    try {
+        const response = await fetch('scores.json');
+        if (response.status !== 200) {
+            throw new Error('Error fetching data');
+        }
+        const data = await response.json();
+        renderScores(data);
+    } catch (error) {
+        console.log('Error fetching data: ', error.message);
+        return;
+    }
+};
 // timer
 function start() {
     if (!isRunning) {
@@ -181,7 +195,7 @@ function isSorted(arr) {
     return arr.every((v, i) => i === 0 || arr[i - 1] < v);
 }
 // showing winMsg
-function showWinMsg(){
+function showWinMsg() {
     confetti({
         particleCount: 120,
         spread: 100,
@@ -195,13 +209,43 @@ if (isSorted(tilesArray)) {
     showWinMsg();
 }
 // leaderBoard
-recordsBtns.forEach(recordsBtn=>{
-    recordsBtn.onclick = ()=>{
-        puzzle.classList.add('showScores');
-        leaderBoard.classList.add('showScores');
-    ;}
+function showLeaderBoard() {
+    puzzle.classList.toggle('showScores');
+    leaderBoard.classList.toggle('showScores');
+}
+recordsBtns.forEach(recordsBtn => {
+    recordsBtn.onclick = () => {
+        showLeaderBoard();
+    }
 });
-closeScores.onclick = () =>{
-    puzzle.classList.remove('showScores');
-    leaderBoard.classList.remove('showScores');
+closeScores.onclick = () => {
+    showLeaderBoard();
+};
+
+fetchScores();
+
+const renderScores = (data) => {
+    const scoresContainer = document.querySelector('.scoresContainer');
+
+    data.forEach(score => {
+        const scoreContainer = document.createElement('div');
+        const player = document.createElement('div');
+        const time = document.createElement('div');
+        const moves = document.createElement('div');
+
+        scoreContainer.className = 'score';
+        player.className = 'player';
+        time.className = 'time';
+        moves.className = 'movesRecord';
+
+        player.textContent = `${score.name}`;
+        time.textContent = `${score.time}`;
+        moves.textContent = `${score.moves}`;
+
+        scoreContainer.appendChild(time);
+        scoreContainer.appendChild(player);
+        scoreContainer.appendChild(moves);
+
+        scoresContainer.appendChild(scoreContainer);
+    });
 }
