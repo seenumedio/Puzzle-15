@@ -1,3 +1,95 @@
+// data management
+let records = [{
+    "name": "Saiesh",
+    "time": "00:35:45",
+    "elapsedTime": 2145,
+    "moves": 200
+},
+{
+    "name": "Karthikeyan",
+    "time": "00:30:45",
+    "elapsedTime": 1845,
+    "moves": 400
+},
+{
+    "name": "Geetha",
+    "time": "00:25:47",
+    "elapsedTime": 1547,
+    "moves": 200
+},
+{
+    "name": "Yuva",
+    "time": "00:40:45",
+    "elapsedTime": 2445,
+    "moves": 350
+}];
+// post scores
+function postScores(data) {
+    try {
+        localStorage.setItem('records', JSON.stringify(data));
+    } catch (err) {
+        console.error("Couldn't save scores: ", err.message);
+    }
+}
+postScores(JSON.stringify(records));
+// fetch scores
+function fetchScores() {
+    try {
+        const data = localStorage.getItem('records');
+        records = data ? JSON.parse(data) : records;
+        if (!Array.isArray(records)) records = [];
+        records.sort((a, b) => (a.moves - b.moves) || (a.elapsedTime - b.elapsedTime));
+    } catch (err) {
+        console.error("Couldn't load scores: ", err.message);
+        records = [];
+    }
+}
+// render scores
+function renderScores() {
+    fetchScores();
+    const scoresContainer = document.querySelector('.scoresContainer');
+    scoresContainer.innerHTML = ``;
+
+    if (!Array.isArray(records)) {
+        console.error('Leaderboard data is corrupted or missing.');
+        return;
+    }
+
+    records.forEach(score => {
+        const scoreContainer = document.createElement('div');
+        const player = document.createElement('div');
+        const time = document.createElement('div');
+        const moves = document.createElement('div');
+
+        scoreContainer.className = 'score';
+        player.className = 'player';
+        time.className = 'time';
+        moves.className = 'movesRecord';
+
+        player.textContent = `${score.name}`;
+        time.textContent = `${score.time}`;
+        moves.textContent = `${score.moves}`;
+
+        scoreContainer.appendChild(time);
+        scoreContainer.appendChild(player);
+        scoreContainer.appendChild(moves);
+
+        scoresContainer.appendChild(scoreContainer);
+    });
+};
+renderScores();
+// update scores
+function updateScores(score) {
+    fetchScores();
+    records.push(score);
+    try {
+        localStorage.setItem('records', JSON.stringify(records));
+    } catch (err) {
+        console.error("Couldn't save scores: ", err.message);
+    }
+    console.log(score);
+}
+
 const navBar = document.querySelector('.navbar');
 const hambBtn = document.querySelector('.hambBtn');
 const navMenu = document.querySelectorAll('.navbar-menu li a');
@@ -9,6 +101,7 @@ let elapsedTime = 0;
 let isRunning = false;
 let firstMove = false;
 
+const puzzle = document.querySelector('.puzzle');
 const puzzleContainer = document.querySelector('.puzzle .puzzle-container');
 
 const moves = document.querySelector('#moves');
@@ -19,6 +112,12 @@ const resetBtn = document.querySelector('.reset');
 const newGame = document.querySelector('#newGame');
 
 const wonMsg = document.querySelector('.wonMsg');
+
+const leaderBoard = document.querySelector('.leaderboard');
+const closeScores = document.querySelector('.closeScores');
+const recordsBtns = document.querySelectorAll('.records');
+
+const form = document.forms['usernameForm'];
 // navbar
 navBar.addEventListener('click', (e) => {
     if (e.target == hambBtn || e.target.parentElement == hambBtn || Array.from(navMenu).includes(e.target)) {
@@ -26,6 +125,7 @@ navBar.addEventListener('click', (e) => {
         hambBtn.nextElementSibling.classList.toggle('active');
     }
 });
+
 // timer
 function start() {
     if (!isRunning) {
@@ -82,11 +182,11 @@ function renderTiles() {
         tile.className = val === 0 ? 'blank' : 'tile';
         puzzleContainer.appendChild(tile);
     });
+    playBtn.classList.remove('show');
     moveTiles();
     if (firstMove) {
         start();
     }
-
 }
 
 function shuffleTiles() {
@@ -131,8 +231,7 @@ function moveTiles() {
     });
 }
 
-shuffleTiles();
-
+renderTiles();
 // play&pause btns
 pauseBtn.onclick = () => {
     stop();
@@ -176,7 +275,7 @@ function isSorted(arr) {
     return arr.every((v, i) => i === 0 || arr[i - 1] < v);
 }
 // showing winMsg
-function showWinMsg(){
+function showWinMsg() {
     confetti({
         particleCount: 120,
         spread: 100,
@@ -189,3 +288,26 @@ function showWinMsg(){
 if (isSorted(tilesArray)) {
     showWinMsg();
 }
+// submit username
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const username = form.querySelector('input[type="text"]').value;
+    const score = `{"name":"${username}", "time":"${timerDisplay.textContent}", "elapsedTime":${elapsedTime}, "moves":${moves.textContent}}`
+    updateScores(JSON.parse(score));
+    showLeaderBoard();
+    form.reset();
+});
+// leaderBoard
+function showLeaderBoard() {
+    puzzle.classList.toggle('showScores');
+    leaderBoard.classList.toggle('showScores');
+    renderScores();
+}
+recordsBtns.forEach(recordsBtn => {
+    recordsBtn.onclick = () => {
+        showLeaderBoard();
+    }
+});
+closeScores.onclick = () => {
+    showLeaderBoard();
+};

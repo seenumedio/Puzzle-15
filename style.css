@@ -135,6 +135,11 @@ body {
     align-items: center;
 }
 
+.puzzle.showScores {
+    opacity: 0;
+    height: 0;
+}
+
 .puzzle-container {
     background-color: black;
     align-self: center;
@@ -260,16 +265,19 @@ body {
     pointer-events: initial;
 }
 
-.wonMsg a {
+.wonMsg .records {
     color: aquamarine;
     padding: 10px;
     background-image: linear-gradient(to right, black, darkcyan, black);
+    border: none;
     border-radius: 10px;
     box-shadow: 0 0 5px white;
     font-family: sans-serif;
+    font-size: min(1.5rem, 4vw);
+    cursor: pointer;
 }
 
-.wonMsg a:hover {
+.wonMsg .records:hover {
     box-shadow: 0 0 0 1px gold;
 }
 
@@ -283,11 +291,143 @@ body {
     text-shadow: 5px 5px 20px black;
 }
 
+.wonMsg form {
+    display: flex;
+    font-family: sans-serif;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 20px;
+}
+
+.wonMsg form input {
+    border: 1px solid aqua;
+    color: aqua;
+    border-radius: 5px;
+    font-size: 20px;
+    padding: 0 10px;
+    width: 40%;
+    background: transparent;
+}
+
+.wonMsg form button {
+    background-color: aquamarine;
+    color: darkcyan;
+    font-size: 20px;
+    border: none;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.wonMsg form button:hover {
+    padding: 1px;
+}
+
 /* after gameOver */
 .puzzle-container.gameOver div,
 #pauseGame.gameOver {
     pointer-events: none;
     opacity: 0.09;
+}
+
+/* leaderboard */
+.leaderboard {
+    opacity: 0;
+    height: 0;
+    width: 0;
+    pointer-events: none;
+    background-color: #1E2538;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-inline: scroll;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    position: absolute;
+    top: 0;
+    transition: height 0.5s ease-in-out, width 0.5s ease-in-out, opacity 1s ease-in-out;
+}
+
+.leaderboard.showScores {
+    opacity: 1;
+    height: 100vh;
+    width: 100%;
+    pointer-events: initial;
+}
+
+.leaderboard .closeScores {
+    color: #284388;
+    font-size: 50px;
+    position: absolute;
+    margin-top: 20px;
+    align-self: flex-start;
+    cursor: pointer;
+}
+
+.leaderboard .closeScores:hover {
+    -webkit-text-stroke: 1px #1E2538;
+}
+
+.leaderboard div:not(.player) {
+    width: 100%;
+}
+
+.leaderboard h1 {
+    background-color: #284388;
+    color: #62DDFF;
+    -webkit-text-stroke: 1.5px #4DB9FF;
+    font-size: clamp(1.8rem, 7vw, 2.5rem);
+    text-align: center;
+    width: fit-content;
+    padding: 10px 40px;
+    margin: 20px 0;
+    border-radius: 10px;
+    border: 2.5px solid #5383FF;
+}
+
+.leaderboard .scoresContainer {
+    color: #0F1B3A;
+    -webkit-text-stroke: 1px #63DDFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 20px;
+}
+
+.leaderboard .scoresContainer div {
+    border: 1px solid #63DDFF;
+}
+
+.leaderboard .scoresContainer .score {
+    border: 1px solid #63DDFF;
+    border-radius: 10px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+.time,
+.movesRecord {
+    max-width: 25vw;
+    background-color: #0F1B3A;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.player {
+    width: 90%;
+    background-color: black;
+    text-align: center;
+    border-radius: 50px;
+    padding: 0 5px;
+}
+
+.player:hover {
+    box-shadow: 0 0 10px aqua;
+    text-shadow: 0 0 2.5px aqua;
+    cursor: default;
 }
 
 @media all and (max-width:640px) {
@@ -369,6 +509,10 @@ body {
         opacity: 1;
         max-height: 100vh;
         pointer-events: auto;
+    }
+
+    .navbar-menu.active a:hover {
+        background: red;
     }
 
     /* hero */
