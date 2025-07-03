@@ -44,7 +44,12 @@
             <span class="wonMsg">
                 <h1>Congratulations</h1>
                 <h2><span>You</span> won</h2>
-                <a href="#" class="records">Records</a>
+                <form action="" id="usernameForm">
+                    <label for="username">Enter your UserName</label>
+                    <input type="text" id="username" class="username" maxlength="10" required>
+                    <button type="submit" class="submitUsername">✔</button>
+                </form>
+                <button class="records">Records</button>
             </span>
         </div>
         <button id="pauseGame">Pause</button>
