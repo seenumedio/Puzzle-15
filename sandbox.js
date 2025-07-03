@@ -77,6 +77,7 @@ function renderScores() {
         scoresContainer.appendChild(scoreContainer);
     });
 };
+renderScores();
 // update scores
 function updateScores(score) {
     fetchScores();
@@ -230,7 +231,7 @@ function moveTiles() {
     });
 }
 
-shuffleTiles();
+renderTiles();
 // play&pause btns
 pauseBtn.onclick = () => {
     stop();

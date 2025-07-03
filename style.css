@@ -62,7 +62,7 @@ body {
     justify-content: space-around;
 }
 
-.navbar-menu button {
+.navbar-menu a {
     color: #240969;
     font-size: 1.5rem;
     font-weight: 550;
@@ -290,14 +290,16 @@ body {
     font-weight: 100;
     text-shadow: 5px 5px 20px black;
 }
-.wonMsg form{
+
+.wonMsg form {
     display: flex;
     font-family: sans-serif;
     align-items: center;
     justify-content: space-around;
     font-size: 20px;
 }
-.wonMsg form input{
+
+.wonMsg form input {
     border: 1px solid aqua;
     color: aqua;
     border-radius: 5px;
@@ -306,7 +308,8 @@ body {
     width: 40%;
     background: transparent;
 }
-.wonMsg form button{
+
+.wonMsg form button {
     background-color: aquamarine;
     color: darkcyan;
     font-size: 20px;
@@ -314,9 +317,11 @@ body {
     padding: 2px;
     cursor: pointer;
 }
-.wonMsg form button:hover{
+
+.wonMsg form button:hover {
     padding: 1px;
 }
+
 /* after gameOver */
 .puzzle-container.gameOver div,
 #pauseGame.gameOver {
@@ -350,7 +355,7 @@ body {
 }
 
 .leaderboard .closeScores {
-    color:#284388;
+    color: #284388;
     font-size: 50px;
     position: absolute;
     margin-top: 20px;
@@ -358,7 +363,7 @@ body {
     cursor: pointer;
 }
 
-.leaderboard .closeScores:hover{
+.leaderboard .closeScores:hover {
     -webkit-text-stroke: 1px #1E2538;
 }
 
@@ -418,11 +423,13 @@ body {
     border-radius: 50px;
     padding: 0 5px;
 }
-.player:hover{
+
+.player:hover {
     box-shadow: 0 0 10px aqua;
     text-shadow: 0 0 2.5px aqua;
-    cursor:default;
+    cursor: default;
 }
+
 @media all and (max-width:640px) {
 
     /* navbar */
@@ -502,6 +509,10 @@ body {
         opacity: 1;
         max-height: 100vh;
         pointer-events: auto;
+    }
+
+    .navbar-menu.active a:hover {
+        background: red;
     }
 
     /* hero */
