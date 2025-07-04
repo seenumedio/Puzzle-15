@@ -40,9 +40,9 @@ function renderScores() {
         time.textContent = `${score.time}`;
         moves.textContent = `${score.moves}`;
 
-        if(index<3){
-            player.classList.add(`player${index+1}`);
-            player.innerHTML += ` <span>${index+1}</span>`;
+        if (index < 3) {
+            player.classList.add(`player${index + 1}`);
+            player.textContent += ` ${index + 1}`;
         }
 
         scoreContainer.appendChild(time);
@@ -66,6 +66,7 @@ function updateScores(score) {
 const navBar = document.querySelector('.navbar');
 const hambBtn = document.querySelector('.hambBtn');
 const navMenu = document.querySelectorAll('.navbar-menu li a');
+const gridSize = document.querySelector('.mode select');
 
 const timerDisplay = document.querySelector('.timer');
 let timer = null;
@@ -92,12 +93,12 @@ const recordsBtns = document.querySelectorAll('.records');
 
 const form = document.forms['usernameForm'];
 // navbar
-navBar.addEventListener('click', (e) => {
+navBar.onclick = (e) => {
     if (e.target == hambBtn || e.target.parentElement == hambBtn || Array.from(navMenu).includes(e.target)) {
         hambBtn.classList.toggle('active');
         hambBtn.nextElementSibling.classList.toggle('active');
     }
-});
+};
 
 // timer
 function start() {
@@ -137,9 +138,21 @@ function update() {
     second = String(second).padStart(2, '0');
     timerDisplay.textContent = `${hour}:${minute}:${second}`;
 }
+// mode grid size
+let size = 4;
+gridSize.onchange = (e) =>{
+    switch(e.target.value){
+        case 'three' : size = 3;
+        break;
+        case 'four' : size = 4;
+        break;
+        case 'five' : size = 5;
+    }
+    shuffleTiles();
+};
 // creating tiles array
 let tilesArray = [];
-for (let i = 0; i <= 15; i++) {
+for (let i = 0; i < size**2; i++) {
     tilesArray.push(i);
 }
 let initialTiles = [];
@@ -204,7 +217,7 @@ function moveTiles() {
     });
 }
 
-renderTiles();
+shuffleTiles();
 // play&pause btns
 pauseBtn.onclick = () => {
     stop();
@@ -281,6 +294,7 @@ recordsBtns.forEach(recordsBtn => {
         showLeaderBoard();
     }
 });
+
 closeScores.onclick = () => {
     showLeaderBoard();
 };

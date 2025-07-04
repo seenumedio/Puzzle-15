@@ -70,15 +70,32 @@ body {
     padding: 10px;
 }
 
+.navbar-menu li a:hover {
+    background-color: #240969;
+    color: #FFCE47;
+}
+
+.navbar-menu select {
+    border: none;
+    color: #240969;
+    font-size: 1.5rem;
+    font-weight: 550;
+    background-color: #FFCE47;
+    cursor: pointer;
+    align-self: center;
+    border-radius: 2.5px;
+}
+
+.navbar-menu select:hover{
+    background-color: #240969;
+    color: #FFCE47;
+    box-shadow: 0 0 0 10px #240969;
+}
+
 .navbar-menu .reset {
     background: none;
     border: 1px solid black;
     cursor: pointer;
-}
-
-.navbar-menu li a:hover {
-    background-color: #240969;
-    color: #FFCE47;
 }
 
 /* hero */
@@ -430,24 +447,22 @@ body {
     text-shadow: 0 0 2.5px aqua;
     cursor: default;
 }
-.player span{
-    float: right;
-    border-left: 1px solid aqua;
-    border-radius: 100%;
-    padding: 0 0 0 5px;
-}
-.player1{
+
+.player1 {
     -webkit-text-stroke: 1.5px gold;
     border-color: goldenrod;
 }
-.player2{
+
+.player2 {
     -webkit-text-stroke: 1.5px silver;
     border-color: grey;
 }
-.player3{
+
+.player3 {
     -webkit-text-stroke: 1.5px orangered;
     border-color: rgba(165, 42, 42, 0.713);
 }
+
 @media all and (max-width:640px) {
 
     /* navbar */
@@ -523,6 +538,12 @@ body {
         color: #FFCE47;
     }
 
+    .navbar-menu select {
+        font-size: 1.3rem;
+        color: #FFCE47;
+        background: transparent;
+    }
+
     .navbar-menu.active {
         opacity: 1;
         max-height: 100vh;
@@ -532,7 +553,10 @@ body {
     .navbar-menu.active a:hover {
         background: red;
     }
-
+    .navbar-menu.active select:hover{
+        background-color: red;
+        box-shadow: 0 0 0 10px red;
+    }
     /* hero */
     .hero {
         padding: 5px;

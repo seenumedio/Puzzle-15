@@ -25,7 +25,15 @@
             </button>
             <ul class="navbar-menu">
                 <li><a href="#" id="newGame">New</a></li>
-                <li><a href="#">Mode</a></li>
+                <li class="mode">
+                        <select name="gridSize" id="gridSize">
+                            <option value="" disabled selected>Mode
+                            </option>
+                            <option value="three">3✕3</option>
+                            <option value="four">4✕4</option>
+                            <option value="five">5✕5</option>
+                        </select>
+                </li>
                 <li><a href="#" class="records">Records</a></li>
                 <li><a href="#" class="reset">Reset</a></li>
             </ul>
