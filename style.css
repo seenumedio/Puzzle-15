@@ -166,8 +166,7 @@ body {
     margin-top: 10px;
     padding: min(2vw, 10%);
     grid-gap: min(1vw, 1%);
-    grid-template-rows: repeat(4, 1fr);
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(auto, 1fr);
 }
 
 .puzzle-container .tile {

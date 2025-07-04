@@ -93,13 +93,15 @@ const recordsBtns = document.querySelectorAll('.records');
 
 const form = document.forms['usernameForm'];
 // navbar
+function showNavMenu() {
+    hambBtn.classList.toggle('active');
+    hambBtn.nextElementSibling.classList.toggle('active');
+}
 navBar.onclick = (e) => {
     if (e.target == hambBtn || e.target.parentElement == hambBtn || Array.from(navMenu).includes(e.target)) {
-        hambBtn.classList.toggle('active');
-        hambBtn.nextElementSibling.classList.toggle('active');
+        showNavMenu();
     }
 };
-
 // timer
 function start() {
     if (!isRunning) {
@@ -140,21 +142,28 @@ function update() {
 }
 // mode grid size
 let size = 4;
-gridSize.onchange = (e) =>{
-    switch(e.target.value){
-        case 'three' : size = 3;
-        break;
-        case 'four' : size = 4;
-        break;
-        case 'five' : size = 5;
+gridSize.onchange = (e) => {
+    showNavMenu();
+    switch (e.target.value) {
+        case 'three': size = 3;
+            break;
+        case 'four': size = 4;
+            break;
+        case 'five': size = 5;
     }
+    createArray(size);
     shuffleTiles();
 };
 // creating tiles array
 let tilesArray = [];
-for (let i = 0; i < size**2; i++) {
-    tilesArray.push(i);
+
+function createArray(size) {
+    tilesArray = [];
+    for (let i = 0; i < size ** 2; i++) {
+        tilesArray.push(i);
+    }
 }
+createArray(size);
 let initialTiles = [];
 /* puzzle grid */
 function renderTiles() {
@@ -168,23 +177,29 @@ function renderTiles() {
         tile.className = val === 0 ? 'blank' : 'tile';
         puzzleContainer.appendChild(tile);
     });
+    puzzleContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+
     playBtn.classList.remove('show');
     moveTiles();
     if (firstMove) {
         start();
     }
+
+    if (isSorted(tilesArray)) {
+        showWinMsg();
+    }
 }
 
 function shuffleTiles() {
-    const directions = [-4, 4, -1, 1];
+    const directions = [-size, +size, -1, 1];
     let emptyIndex = tilesArray.indexOf(0);
     for (let i = 0; i < 1000; i++) {
         const validMoves = directions.filter(d => {
             const newIndex = emptyIndex + d;
             return (
-                newIndex >= 0 && newIndex < 16 &&
-                !(d === 1 && emptyIndex % 4 === 3) &&
-                !(d === -1 && emptyIndex % 4 === 0));
+                newIndex >= 0 && newIndex < size**2 &&
+                !(d === 1 && emptyIndex % size === size-1) &&
+                !(d === -1 && emptyIndex % size === 0));
         });
         const newIndex = emptyIndex + validMoves[Math.floor(Math.random() * validMoves.length)];
 
@@ -207,7 +222,7 @@ function moveTiles() {
     const emptyIndex = tilesArray.indexOf(0);
     tiles.forEach((tile, index) => {
         tile.onclick = () => {
-            if (Math.abs(index - emptyIndex) == 1 || Math.abs(index - emptyIndex) == 4) {
+            if (Math.abs(index - emptyIndex) === 1 || Math.abs(index - emptyIndex) === size) {
                 [tilesArray[emptyIndex], tilesArray[index]] = [tilesArray[index], 0];
                 firstMove = true;
                 renderTiles();
@@ -216,7 +231,6 @@ function moveTiles() {
         };
     });
 }
-
 shuffleTiles();
 // play&pause btns
 pauseBtn.onclick = () => {
@@ -258,10 +272,15 @@ newGame.onclick = () => {
 };
 // check for win
 function isSorted(arr) {
-    return arr.every((v, i) => i === 0 || arr[i - 1] < v);
+    if (arr[arr.length-1] !== 0) return false;
+    for (let i = 1; i < arr.length-1; i++) {
+        if (arr[i - 1] > arr[i]) return false;
+    }
+    return true;
 }
 // showing winMsg
 function showWinMsg() {
+    stop();
     confetti({
         particleCount: 120,
         spread: 100,
@@ -271,9 +290,6 @@ function showWinMsg() {
     puzzleContainer.classList.add('gameOver');
     pauseBtn.classList.add('gameOver');
 }
-if (isSorted(tilesArray)) {
-    showWinMsg();
-}
 // submit username
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -282,6 +298,7 @@ form.addEventListener('submit', (e) => {
     updateScores(JSON.parse(score));
     showLeaderBoard();
     form.reset();
+    shuffleTiles();
 });
 // leaderBoard
 function showLeaderBoard() {
@@ -294,7 +311,6 @@ recordsBtns.forEach(recordsBtn => {
         showLeaderBoard();
     }
 });
-
 closeScores.onclick = () => {
     showLeaderBoard();
 };
