@@ -99,7 +99,7 @@ navBar.onclick = (e) => {
     if (e.target == hambBtn || e.target.parentElement == hambBtn || Array.from(navMenu).includes(e.target)) {
         showNavMenu();
     }
-});
+};
 
 // timer
 function start() {
