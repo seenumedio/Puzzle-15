@@ -17,8 +17,6 @@ function fetchScores() {
         }
     } catch (err) {
         console.error('Error fetching scores: ', err.message);
-    }
-}
 // render scores
 function renderScores() {
     fetchScores();
@@ -101,7 +99,8 @@ navBar.onclick = (e) => {
     if (e.target == hambBtn || e.target.parentElement == hambBtn || Array.from(navMenu).includes(e.target)) {
         showNavMenu();
     }
-};
+});
+
 // timer
 function start() {
     if (!isRunning) {
@@ -177,6 +176,7 @@ function renderTiles() {
         tile.className = val === 0 ? 'blank' : 'tile';
         puzzleContainer.appendChild(tile);
     });
+  
     puzzleContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
 
     playBtn.classList.remove('show');
@@ -231,7 +231,9 @@ function moveTiles() {
         };
     });
 }
+      
 shuffleTiles();
+
 // play&pause btns
 pauseBtn.onclick = () => {
     stop();
@@ -298,6 +300,7 @@ form.addEventListener('submit', (e) => {
     updateScores(JSON.parse(score));
     showLeaderBoard();
     form.reset();
+  
     shuffleTiles();
 });
 // leaderBoard
