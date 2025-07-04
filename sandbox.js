@@ -1,47 +1,22 @@
 // data management
-let records = [{
-    "name": "Saiesh",
-    "time": "00:35:45",
-    "elapsedTime": 2145,
-    "moves": 200
-},
-{
-    "name": "Karthikeyan",
-    "time": "00:30:45",
-    "elapsedTime": 1845,
-    "moves": 400
-},
-{
-    "name": "Geetha",
-    "time": "00:25:47",
-    "elapsedTime": 1547,
-    "moves": 200
-},
-{
-    "name": "Yuva",
-    "time": "00:40:45",
-    "elapsedTime": 2445,
-    "moves": 350
-}];
+let records = [];
 // post scores
-function postScores(data) {
+function postScores() {
     try {
-        localStorage.setItem('records', JSON.stringify(data));
+        localStorage.setItem('records', records);
     } catch (err) {
-        console.error("Couldn't save scores: ", err.message);
+        console.error("Couldn't save records: ", err);
     }
 }
-postScores(JSON.stringify(records));
 // fetch scores
 function fetchScores() {
     try {
-        const data = localStorage.getItem('records');
-        records = data ? JSON.parse(data) : records;
-        if (!Array.isArray(records)) records = [];
-        records.sort((a, b) => (a.moves - b.moves) || (a.elapsedTime - b.elapsedTime));
+        const data = JSON.parse(localStorage.getItem('records'));
+        if (data) {
+            records = data.sort((a, b) => (a.moves - b.moves) || (a.elapsedTime - b.elapsedTime));
+        }
     } catch (err) {
-        console.error("Couldn't load scores: ", err.message);
-        records = [];
+        console.error('Error fetching scores: ', err.message);
     }
 }
 // render scores
@@ -50,12 +25,7 @@ function renderScores() {
     const scoresContainer = document.querySelector('.scoresContainer');
     scoresContainer.innerHTML = ``;
 
-    if (!Array.isArray(records)) {
-        console.error('Leaderboard data is corrupted or missing.');
-        return;
-    }
-
-    records.forEach(score => {
+    records.forEach((score, index) => {
         const scoreContainer = document.createElement('div');
         const player = document.createElement('div');
         const time = document.createElement('div');
@@ -70,6 +40,11 @@ function renderScores() {
         time.textContent = `${score.time}`;
         moves.textContent = `${score.moves}`;
 
+        if(index<3){
+            player.classList.add(`player${index+1}`);
+            player.innerHTML += ` <span>${index+1}</span>`;
+        }
+
         scoreContainer.appendChild(time);
         scoreContainer.appendChild(player);
         scoreContainer.appendChild(moves);
@@ -77,7 +52,6 @@ function renderScores() {
         scoresContainer.appendChild(scoreContainer);
     });
 };
-renderScores();
 // update scores
 function updateScores(score) {
     fetchScores();
@@ -87,7 +61,6 @@ function updateScores(score) {
     } catch (err) {
         console.error("Couldn't save scores: ", err.message);
     }
-    console.log(score);
 }
 
 const navBar = document.querySelector('.navbar');

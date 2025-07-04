@@ -394,7 +394,7 @@ body {
     padding: 20px;
 }
 
-.leaderboard .scoresContainer div {
+.leaderboard .scoresContainer div:not(.player1, .player2, .player3) {
     border: 1px solid #63DDFF;
 }
 
@@ -420,6 +420,7 @@ body {
     width: 90%;
     background-color: black;
     text-align: center;
+    border: 1px solid #63DDFF;
     border-radius: 50px;
     padding: 0 5px;
 }
@@ -429,7 +430,24 @@ body {
     text-shadow: 0 0 2.5px aqua;
     cursor: default;
 }
-
+.player span{
+    float: right;
+    border-left: 1px solid aqua;
+    border-radius: 100%;
+    padding: 0 0 0 5px;
+}
+.player1{
+    -webkit-text-stroke: 1.5px gold;
+    border-color: goldenrod;
+}
+.player2{
+    -webkit-text-stroke: 1.5px silver;
+    border-color: grey;
+}
+.player3{
+    -webkit-text-stroke: 1.5px orangered;
+    border-color: rgba(165, 42, 42, 0.713);
+}
 @media all and (max-width:640px) {
 
     /* navbar */
